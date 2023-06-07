@@ -60,9 +60,6 @@ export function is_send_later_timestamp_missing_or_expired(
 }
 
 function sort_scheduled_messages_data() {
-    // scheduled_messages_data.sort(
-    //     (msg1, msg2) => msg1.scheduled_delivery_timestamp - msg2.scheduled_delivery_timestamp,
-    // );
     const messagesArray = Object.entries(scheduled_messages_data);
     messagesArray.sort(([, timestamp1], [, timestamp2]) => timestamp1 - timestamp2);
 
@@ -95,8 +92,6 @@ export function remove_scheduled_message(scheduled_message_id) {
 
 export function update_scheduled_message(scheduled_message) {
     const {scheduled_message_id} = scheduled_message;
-
-    // if (scheduled_messages_data.prototype.hasOwnProperty(scheduled_message_id))
     if (scheduled_message_id in scheduled_messages_data) {
         scheduled_messages_data[scheduled_message_id] = scheduled_message;
         sort_scheduled_messages_data();
