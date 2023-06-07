@@ -76,30 +76,31 @@ function hide_scheduled_message_success_compose_banner(scheduled_message_id) {
 }
 
 export function add_scheduled_messages(scheduled_messages) {
-    Object.assign(scheduled_messages_data,scheduled_messages)
+    Object.assign(scheduled_messages_data, scheduled_messages);
     sort_scheduled_messages_data();
 }
 
 export function remove_scheduled_message(scheduled_message_id) {
     const messagesArray = Object.keys(scheduled_messages_data);
     const msgIndex = messagesArray.findIndex(
-      (msg) => msg.scheduled_message_id === scheduled_message_id
+        (msg) => msg.scheduled_message_id === scheduled_message_id,
     );
-    
+
     if (msgIndex !== -1) {
-      const message = messagesArray[msgIndex];
-      delete scheduled_messages_data[message.scheduled_message_id];
-      hide_scheduled_message_success_compose_banner(scheduled_message_id);
+        const message = messagesArray[msgIndex];
+        delete scheduled_messages_data[message.scheduled_message_id];
+        hide_scheduled_message_success_compose_banner(scheduled_message_id);
     }
 }
 
 export function update_scheduled_message(scheduled_message) {
-    const { scheduled_message_id } = scheduled_message;
+    const {scheduled_message_id} = scheduled_message;
 
-    if (scheduled_messages_data.hasOwnProperty(scheduled_message_id)) {
-    scheduled_messages_data[scheduled_message_id] = scheduled_message;
-    sort_scheduled_messages_data();
-  }
+    // if (scheduled_messages_data.prototype.hasOwnProperty(scheduled_message_id))
+    if (scheduled_message_id in scheduled_messages_data) {
+        scheduled_messages_data[scheduled_message_id] = scheduled_message;
+        sort_scheduled_messages_data();
+    }
 }
 
 function narrow_via_edit_scheduled_message(compose_args) {
@@ -171,9 +172,8 @@ function show_message_unscheduled_banner(scheduled_delivery_timestamp) {
 }
 
 export function edit_scheduled_message(scheduled_message_id, should_narrow_to_recipient = true) {
-    if(scheduled_messages_data.hasOwnProperty(scheduled_message_id))
-    {
-        const scheduled_message=scheduled_messages_data[scheduled_message_id];
+    if (scheduled_message_id in scheduled_messages_data) {
+        const scheduled_msg = scheduled_messages_data[scheduled_message_id];
         delete_scheduled_message(scheduled_message_id, () => {
             open_scheduled_message_in_compose(scheduled_msg, should_narrow_to_recipient);
             show_message_unscheduled_banner(scheduled_msg.scheduled_delivery_timestamp);
