@@ -22,7 +22,6 @@ export let scheduled_messages_data = {};
 
 function compute_send_times(now = new Date()) {
     const send_times = {};
-
     const today = new Date(now);
     const tomorrow = new Date(new Date(now).setDate(now.getDate() + 1));
     // Find the next Monday by subtracting the current day (0-6) from 8
@@ -76,6 +75,8 @@ export function add_scheduled_messages(scheduled_messages) {
     Object.assign(scheduled_messages_data, scheduled_messages);
     sort_scheduled_messages_data();
 }
+
+
 
 export function remove_scheduled_message(scheduled_message_id) {
     const messagesArray = Object.keys(scheduled_messages_data);
